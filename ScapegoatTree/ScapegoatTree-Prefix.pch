@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'ScapegoatTree' target in the 'ScapegoatTree' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
