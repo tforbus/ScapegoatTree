@@ -16,7 +16,8 @@
 @implementation Node
 @synthesize value, left, right;
 
-#pragma mark - Initialization
+#pragma mark - Initialization --------------------------------------------------
+
 -(id) init
 {
     [self setLeft:nil];
@@ -24,7 +25,7 @@
     return self;
 }
 
--(id) initWithValue:(NSDate*)_value
+-(id) initWithValue:(LogEntity*)_value
 {
     [self setLeft:nil];
     [self setRight:nil];
@@ -41,7 +42,8 @@
     return self;
 }
 
-#pragma mark - Size
+#pragma mark - Size ------------------------------------------------------------
+
 -(NSNumber*)size
 {
     return [NSNumber numberWithInt:[self sizeOf:self]];
@@ -57,37 +59,58 @@
 
 
 -(NSComparisonResult)compare:(Node*)other
-{
-    // JUST TESTING
-    //return [[self.value integerValue] compare:[other.value integerValue]];
-    /*if([self.value integerValue] < [other.value integerValue])
-        return NSOrderedAscending;
-    else if([self.value integerValue] > [other.value integerValue])
-        return NSOrderedDescending;
-    else
-        return NSOrderedSame;*/
-    
-    // COMPARING OBJECTS
-    /*if([self.value compare:other.value] == NSOrderedSame)
-        NSLog(@"%@ and %@ are the same", self.value, other.value);
-    else if([self.value compare:other.value] == NSOrderedAscending)
-             NSLog(@"%@ and %@ are ascending", self.value, other.value);
-    else
-        NSLog(@"%@ and %@ are descending", self.value, other.value);
-    */
-    
-    return [self.value compare:other.value];
+{    
+    return [self.value.date compare:other.value.date];
 }
 
--(NSString*)description
-{
-    return nil;
-    //return [self value].description;
-}
 
 -(BOOL)isLeaf
 {
     return self.left == nil && self.right == nil;
 }
+
+
+-(BOOL)hasOnlyOneSubtree
+{
+    BOOL hasLeft = self.left != nil && self.right == nil;
+    BOOL hasRight = self.left == nil && self.right != nil;
+    
+    return (hasLeft || hasRight);
+}
+
+
+-(BOOL)hasTwoSubtrees
+{
+    return ![self isLeaf] && ![self hasOnlyOneSubtree];
+}
+
+
+-(BOOL)doesFallBetweenNodes:(Node*)lower and:(Node*)upper
+{
+    BOOL greaterThanLowerBound  = [self compare:lower] == NSOrderedDescending;
+    BOOL equalToLowerBound      = [self compare:lower] == NSOrderedSame;
+    BOOL lowerThanUpperBound    = [self compare:upper] == NSOrderedAscending;
+    BOOL equalToUpperBound      = [self compare:upper] == NSOrderedSame;
+    
+    BOOL inLower = greaterThanLowerBound || equalToLowerBound;
+    BOOL inUpper = lowerThanUpperBound || equalToUpperBound;
+    
+    return inLower && inUpper;
+}
+
+
+-(BOOL)doesDateFallBetweenDates:(NSDate*)lower and:(NSDate*)upper
+{
+    BOOL greaterThanLowerBound  = [self.value.date compare:lower] == NSOrderedDescending;
+    BOOL equalToLowerBound      = [self.value.date compare:lower] == NSOrderedSame;
+    BOOL lowerThanUpperBound    = [self.value.date compare:upper] == NSOrderedAscending;
+    BOOL equalToUpperBound      = [self.value.date compare:upper] == NSOrderedSame;
+    
+    BOOL inLower = greaterThanLowerBound || equalToLowerBound;
+    BOOL inUpper = lowerThanUpperBound || equalToUpperBound;
+    
+    return inLower && inUpper;
+}
+
 
 @end
