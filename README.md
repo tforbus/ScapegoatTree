@@ -1,4 +1,4 @@
 ScapegoatTree
 =============
 
-Implemented a scapegoat tree (self-balancing binary search tree) in objective-c, so we can use a rad tree on CoreData.
+This is a self-balancing binary search tree. Some of the methods in the tree class and node class are specific for the project I was doing, so those would need to be changed for any other project. 
